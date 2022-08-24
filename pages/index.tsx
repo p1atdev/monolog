@@ -3,7 +3,7 @@ import Head from "next/head"
 import Image from "next/image"
 
 const Home: NextPage = () => {
-    return <div className="text-3xl">hi</div>
+    return <div className="text-3xl">Monolog</div>
 }
 
 export default Home
