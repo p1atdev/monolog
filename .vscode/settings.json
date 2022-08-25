@@ -1,4 +1,6 @@
 {
-    "WillLuke.nextjs.addTypesOnSave": true,
-    "WillLuke.nextjs.hasPrompted": true
+    "WillLuke.nextjs.addTypesOnSave": false,
+    "WillLuke.nextjs.hasPrompted": false,
+    "prisma.fileWatcher": true,
+    "typescript.tsc.autoDetect": "on"
 }
