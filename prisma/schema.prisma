@@ -1,13 +1,24 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// generator client {
+//   provider = "prisma-client-js"
+// }
+
+// datasource db {
+//   provider = "postgresql"
+//   url      = env("DATABASE_URL")
+// }
+
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
 }
 
 model User {
@@ -25,6 +36,17 @@ model Scenario {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   sections  Section[]
+  chapters  Chapter[]
+}
+
+model Chapter {
+  id         String    @id @default(cuid())
+  title      String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  scenarioId String
+  scenario   Scenario  @relation(fields: [scenarioId], references: [id])
+  Section    Section[]
 }
 
 model Section {
@@ -34,6 +56,8 @@ model Section {
   updatedAt  DateTime @updatedAt
   scenarioId String
   scenario   Scenario @relation(fields: [scenarioId], references: [id])
+  chapterId  String
+  chapter    Chapter  @relation(fields: [chapterId], references: [id])
   asides     Aside[]
 }
 

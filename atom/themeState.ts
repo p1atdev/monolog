@@ -17,7 +17,7 @@ export const useThemeState = () => {
 export const useThemeStateMutators = () => {
     const setState = useSetRecoilState(themeStateRecoilState)
 
-    const setDrawerState = useCallback((themeState: ThemeState) => setState(themeState), [setState])
+    const setThemeState = useCallback((themeState: ThemeState) => setState(themeState), [setState])
 
-    return { setDrawerState }
+    return { setThemeState }
 }
