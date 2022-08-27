@@ -1,6 +1,4 @@
-import { AppShell, Box, Header, Navbar } from "@mantine/core"
 import { GetServerSidePropsContext } from "next"
-import { useRouter } from "next/router"
 import ScenarioBar from "../../components/common/bar/ScenarioBar"
 import { Aside } from "../../types/aside"
 import { format } from "date-fns"
@@ -11,6 +9,7 @@ import SectionBar from "../../components/common/bar/SectionBar"
 import { useStageState, useStageStateMutators } from "../../atom/stageState"
 import { useEffect, useState } from "react"
 import AsideList from "../../components/common/aside/AsideList"
+import Editor from "../../components/common/editor/Editor"
 
 interface Props {
     scenarios: Scenario[]
@@ -113,7 +112,15 @@ const Page = ({ scenarios, scenarioId, sectionId, section }: Props) => {
                 <ScenarioBar scenarios={scenarios} />
                 <SectionBar scenarios={scenarios} />
             </div>
-            <div className="overflow-auto">{section && <AsideList section={section} />}</div>
+            <div className="flex h-full w-full flex-col">
+                <div className="h-full overflow-auto">
+                    <AsideList section={section} />
+                </div>
+
+                <div className="h-60">
+                    <Editor />
+                </div>
+            </div>
         </div>
     )
 }
