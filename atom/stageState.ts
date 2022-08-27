@@ -1,14 +1,21 @@
 import { useCallback } from "react"
 import { atom, useRecoilValue, useSetRecoilState } from "recoil"
+import { Chapter } from "../types/chapter"
+import { Scenario } from "../types/scenario"
+import { Section } from "../types/section"
 
-type ScenarioState = string | null
-type ChapterState = string | null
-type SectionState = string | null
+type Id = string | null
+
+type ScenariosState = Scenario[] | null
+type ScenarioIdState = Id
+type ChapterIdState = Id
+type SectionIdState = Id
 
 interface StageState {
-    scenarioId: ScenarioState
-    chapterId: ChapterState
-    sectionId: SectionState
+    scenarios: ScenariosState
+    scenarioId: ScenarioIdState
+    chapterId: ChapterIdState
+    sectionId: SectionIdState
 }
 
 export const StageStateKey = "themeState"
@@ -16,6 +23,7 @@ export const StageStateKey = "themeState"
 const stageStateRecoilState = atom<StageState>({
     key: StageStateKey,
     default: {
+        scenarios: [],
         scenarioId: null,
         chapterId: null,
         sectionId: null,

@@ -9,12 +9,14 @@ import { Scenario } from "../../types/scenario"
 import { Chapter } from "../../types/chapter"
 import SectionBar from "../../components/common/bar/SectionBar"
 import { useStageState, useStageStateMutators } from "../../atom/stageState"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import AsideList from "../../components/common/aside/AsideList"
 
 interface Props {
     scenarios: Scenario[]
     scenarioId: string
     sectionId: string
+    section: Section
 }
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
@@ -77,21 +79,32 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
         },
     ]
 
+    const section = sections.find((section) => section.id === sectionId)
+
+    if (!section) {
+        return {
+            redirect: {
+                destination: "/",
+            },
+        }
+    }
+
     return {
         props: {
             scenarios,
             scenarioId,
             sectionId,
+            section,
         },
     }
 }
 
-const Page = ({ scenarios, scenarioId, sectionId }: Props) => {
+const Page = ({ scenarios, scenarioId, sectionId, section }: Props) => {
     const stageState = useStageState()
     const { setStageState } = useStageStateMutators()
 
     useEffect(() => {
-        setStageState({ ...stageState, scenarioId, sectionId })
+        setStageState({ ...stageState, scenarios, scenarioId, sectionId })
     }, [scenarioId, sectionId])
 
     return (
@@ -100,9 +113,7 @@ const Page = ({ scenarios, scenarioId, sectionId }: Props) => {
                 <ScenarioBar scenarios={scenarios} />
                 <SectionBar scenarios={scenarios} />
             </div>
-            <h1>
-                Scenario: {scenarioId}, Section: {sectionId}
-            </h1>
+            <div className="overflow-auto">{section && <AsideList section={section} />}</div>
         </div>
     )
 }

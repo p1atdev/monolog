@@ -1,4 +1,5 @@
 import { Accordion, Avatar, Box, Navbar, NavLink, Title } from "@mantine/core"
+import { useEffect, useState } from "react"
 import { useStageState } from "../../../atom/stageState"
 import { Scenario } from "../../../types/scenario"
 import ChapterItem from "../scenario/ChapterItem"
@@ -8,15 +9,19 @@ interface Props {
 }
 
 const SectionBar = ({ scenarios }: Props) => {
-    const { sectionId, chapterId, scenarioId } = useStageState()
-    const scenario = scenarios.find((scenario) => scenario.id === scenarioId)
+    const { scenarioId } = useStageState()
+    const [scenario, setScenario] = useState<Scenario | null>(null)
+
+    useEffect(() => {
+        const _scenario = scenarios.find((_scenario) => _scenario.id === scenarioId)
+        if (!_scenario) {
+            return
+        }
+        setScenario(_scenario)
+    }, [scenarioId])
 
     if (!scenario) {
-        return (
-            <div>
-                <p>scenario not found</p>
-            </div>
-        )
+        return <div></div>
     }
 
     return (
